@@ -1,0 +1,581 @@
+Aquí tienes el HTML del juego con el botón "No" más travieso y sensible, y frases divertidas para que solo puedan elegir "Sí".
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>💘 ¿Quieres ser mi novia? 💘</title>
+    <style>
+        * {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #ffb7c5 0%, #ff8c9e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Quicksand', 'Poppins', system-ui, -apple-system, cursive;
+            padding: 16px;
+            transition: background 0.3s ease;
+        }
+
+        /* Tarjeta principal - se adapta perfecto a móvil */
+        .game-card {
+            background: rgba(255, 248, 245, 0.96);
+            backdrop-filter: blur(4px);
+            border-radius: 64px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 215, 215, 0.6) inset;
+            padding: 28px 20px 40px 20px;
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .emoji-floating {
+            font-size: 80px;
+            margin-bottom: 8px;
+            display: inline-block;
+            animation: flotarCorazon 2.5s infinite ease-in-out;
+        }
+
+        @keyframes flotarCorazon {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #d43f6b;
+            text-shadow: 3px 3px 0 #ffe0e7;
+            margin: 5px 0 5px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            word-break: keep-all;
+        }
+
+        .sub-hint {
+            background: #ffecf0;
+            display: inline-block;
+            padding: 8px 22px;
+            border-radius: 60px;
+            color: #c53a62;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            box-shadow: inset 0 1px 3px #fff9, 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Zona de botones - responsiva */
+        .botones-zona {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 20px 0 20px;
+            position: relative;
+            min-height: 130px;
+        }
+
+        /* BOTÓN SÍ - hermoso y estable */
+        .btn-si {
+            background: linear-gradient(125deg, #ff5f7e, #ff8aa8);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 16px 32px;
+            border-radius: 100px;
+            box-shadow: 0 10px 0 #982c4b, 0 6px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: 0.07s linear;
+            font-family: inherit;
+            letter-spacing: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-si:active {
+            transform: translateY(4px);
+            box-shadow: 0 5px 0 #982c4b;
+        }
+
+        /* BOTÓN NO - TRABAJOSO, SE MUEVE, CAMBIA TEXTO Y TAMAÑO */
+        .btn-no {
+            background: #4a372f;
+            border: none;
+            color: #ffe1cf;
+            font-size: 1.9rem;
+            font-weight: bold;
+            padding: 16px 32px;
+            border-radius: 100px;
+            box-shadow: 0 8px 0 #2c1e18;
+            cursor: pointer;
+            transition: all 0.09s cubic-bezier(0.2, 1.8, 0.4, 1);
+            font-family: inherit;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            will-change: transform, padding, font-size;
+            background: #5f4236;
+            position: relative;
+            touch-action: none;
+        }
+
+        /* mensaje de celebración */
+        .celebracion {
+            background: #fff0d6;
+            margin-top: 28px;
+            padding: 22px 12px;
+            border-radius: 70px;
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #d6345c;
+            transition: 0.3s;
+            border: 3px dashed #ffb1c2;
+            line-height: 1.3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .animacion-pop {
+            animation: popFestejo 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+
+        @keyframes popFestejo {
+            0% { transform: scale(0.8); opacity: 0; }
+            80% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #b34265;
+            background: rgba(255,235,235,0.7);
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        /* Responsive móvil */
+        @media (max-width: 550px) {
+            .game-card { padding: 20px 16px 32px; border-radius: 48px; }
+            h1 { font-size: 1.9rem; }
+            .btn-si, .btn-no { padding: 12px 22px; font-size: 1.5rem; }
+            .botones-zona { gap: 18px; min-height: 110px; }
+            .sub-hint { font-size: 0.8rem; margin-bottom: 22px; }
+            .celebracion { font-size: 1.3rem; padding: 16px; }
+        }
+
+        @media (max-width: 420px) {
+            .btn-si, .btn-no { padding: 10px 18px; font-size: 1.3rem; }
+            h1 { font-size: 1.7rem; }
+        }
+        
+        /* efecto de brillo en el botón sí cuando el NO es escurridizo */
+        @keyframes pulseSi {
+            0% { box-shadow: 0 10px 0 #982c4b, 0 0 0 0 rgba(255,105,130,0.4);}
+            100% { box-shadow: 0 10px 0 #982c4b, 0 0 0 12px rgba(255,105,130,0);}
+        }
+        .brillo-si {
+            animation: pulseSi 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+<div class="game-card" id="juegoCard">
+    <div class="emoji-floating">💖💕💘</div>
+    <h1>💗 ¿Quieres ser mi novia? 💗</h1>
+    <div class="sub-hint">✨ ¡El botón "NO" es súper travieso! No lo atraparás fácil ✨</div>
+
+    <div class="botones-zona" id="zonaBotones">
+        <button class="btn-si" id="btnSi">💕 ¡SÍ! 💕</button>
+        <button class="btn-no" id="btnNo">😈 NO 😈</button>
+    </div>
+
+    <div id="mensajeFinal" class="celebracion hidden">
+        🎉💖 ¡SABÍA QUE DIRÍAS QUE SÍ! 💖🎉<br>
+        <span style="font-size:1.1rem;">💕 ¡ÁNDALE SÍ, SÍ, POR FIII! 💕</span><br>
+        <span style="font-size:0.9rem;">❤️ Eres lo más hermoso que me ha pasado ❤️</span>
+    </div>
+    <footer>💞 Dale al SÍ sin miedo... el NO siempre va a huir 💞</footer>
+</div>
+
+<script>
+    (function(){
+        // ----- ELEMENTOS -----
+        const btnSi = document.getElementById('btnSi');
+        const btnNo = document.getElementById('btnNo');
+        const zona = document.getElementById('zonaBotones');
+        const mensajeBox = document.getElementById('mensajeFinal');
+        const card = document.getElementById('juegoCard');
+
+        let juegoActivo = true;      // mientras no haya aceptado
+        let intentosTraviesos = 0;    // contador de huidas
+        let intervalRef = null;        // para animación extra (opcional)
+        
+        // Frases juguetonas para el botón NO (más divertidas y con "ándale, porfi" indirecto)
+        const frasesNo = [
+            "😈 NO", "🚫 NI LOCO", "🙈 ESCAPO", "🏃‍♀️ CORRE", 
+            "🤭 INTENTA OTRA VEZ", "✨ CASI CASI ✨", "😜 NOP", 
+            "🍃 HUYE HUYE", "🌀 OTRA VEZ NO", "🎈 JAJA NO", 
+            "❌ SOLO SÍ VALE", "🤡 ANDA DALE AL SÍ", "💨 SOY INATRAPABLE",
+            "😏 NO PUEDES", "🙅‍♀️ NEL PASTEL", "💢 ¡ÁNDALE SÍ!",
+            "🌟 POR FII, DILE SÍ 🌟", "🤪 TE QUIERO VER CLICK SÍ"
+        ];
+        
+        // Frases extra que aparecen flotando cuando intentan NO
+        const mensajesFlotantes = [
+            "¡Nooo! Dale al SÍ 💕", "¡Anda, di que SÍ! 🥺", "No seas así, haz clic en SÍ", 
+            "💘 ¡SÍ, SÍ, POR FAVOR! 💘", "Corazón, solo SÍ ✨", "¡El NO es mentira! 🙈", 
+            "Ándale, SÍ acepta 💖", "¡Porfi, porfi, SÍ! ❤️", "El destino dice SÍ 🥰",
+            "👉 SÍ es la única opción 👈", "🤗 ¡SÍ o SÍ! travieso"
+        ];
+
+        // Actualizar dimensiones
+        function actualizarRectangulos() {
+            if(!zona || !btnNo) return null;
+            const areaRect = zona.getBoundingClientRect();
+            const noRect = btnNo.getBoundingClientRect();
+            return { areaRect, noRect };
+        }
+        
+        // Mover botón NO de forma super sensible y escurridiza, con cambio de texto
+        function moverBotonNo(extraFuerza = false) {
+            if (!juegoActivo) return;
+            if (!zona || !btnNo) return;
+            
+            const { areaRect, noRect } = actualizarRectangulos();
+            if (!areaRect || !noRect) return;
+            
+            const anchoArea = areaRect.width;
+            const altoArea = areaRect.height;
+            const anchoBoton = noRect.width;
+            const altoBoton = noRect.height;
+            
+            // límites para que no se salga del contenedor (con márgenes de 3px)
+            let maxLeft = Math.max(0, anchoArea - anchoBoton - 4);
+            let maxTop = Math.max(0, altoArea - altoBoton - 4);
+            if (maxLeft <= 2) maxLeft = 5;
+            if (maxTop <= 2) maxTop = 5;
+            
+            // Posición aleatoria más agresiva si lleva muchos intentos
+            let randomX, randomY;
+            if (extraFuerza || intentosTraviesos > 5) {
+                randomX = Math.random() * maxLeft;
+                randomY = Math.random() * maxTop;
+                // a veces salta más lejos
+                if (Math.random() > 0.6) {
+                    randomX = Math.random() * maxLeft;
+                    randomY = Math.random() * maxTop;
+                }
+            } else {
+                randomX = Math.random() * maxLeft;
+                randomY = Math.random() * maxTop;
+            }
+            
+            // Aplicar transform con translate
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            
+            // Reducción de tamaño progresiva (más juguetón)
+            let factorReduccion = Math.max(0.48, 1 - (intentosTraviesos * 0.065));
+            if (factorReduccion < 0.48) factorReduccion = 0.48;
+            const nuevoPadding = Math.max(7, 16 * factorReduccion);
+            const nuevaFont = Math.max(1.0, 1.6 * factorReduccion);
+            btnNo.style.padding = `${nuevoPadding}px ${nuevoPadding * 1.3}px`;
+            btnNo.style.fontSize = `${nuevaFont}rem`;
+            
+            // Cambiar texto a una frase aleatoria graciosa (pero siempre manteniendo la esencia)
+            let indice = Math.floor(Math.random() * frasesNo.length);
+            let textoNuevo = frasesNo[indice];
+            // A veces poner un emoji extra para que se note más juguetón
+            if (intentosTraviesos % 3 === 0 && !textoNuevo.includes("😈")) {
+                textoNuevo = "😜 " + textoNuevo + " 😜";
+            } else if (intentosTraviesos % 4 === 2) {
+                textoNuevo = textoNuevo + " 💢";
+            }
+            btnNo.innerHTML = textoNuevo;
+            
+            // Efecto adicional: sacudir la zona suavemente
+            zona.style.transform = "translateX(3px)";
+            setTimeout(() => { if(zona) zona.style.transform = ""; }, 60);
+            
+            // Hacemos que el botón Sí tenga un pequeño brillo para animar a clickearlo
+            btnSi.classList.add('brillo-si');
+            setTimeout(() => btnSi.classList.remove('brillo-si'), 400);
+        }
+        
+        // Mostrar mensaje flotante tipo SMS/notificación cerca del cursor o del botón
+        function mostrarMensajitoFlotante(textoPersonal = null) {
+            if (!juegoActivo) return;
+            let mensaje = textoPersonal || mensajesFlotantes[Math.floor(Math.random() * mensajesFlotantes.length)];
+            // si el evento existe usar sus coordenadas, sino usar posición del botón NO
+            let x = window.innerWidth / 2;
+            let y = window.innerHeight / 2;
+            if (window.event && window.event.clientX) {
+                x = window.event.clientX;
+                y = window.event.clientY;
+            } else if (btnNo) {
+                const rect = btnNo.getBoundingClientRect();
+                x = rect.left + rect.width/2;
+                y = rect.top - 20;
+            }
+            const burbuja = document.createElement('div');
+            burbuja.innerText = mensaje;
+            burbuja.style.position = 'fixed';
+            burbuja.style.left = (x - 70) + 'px';
+            burbuja.style.top = (y - 45) + 'px';
+            burbuja.style.background = '#ffecb3';
+            burbuja.style.color = '#bc3f5c';
+            burbuja.style.padding = '6px 14px';
+            burbuja.style.borderRadius = '50px';
+            burbuja.style.fontWeight = 'bold';
+            burbuja.style.fontSize = '0.9rem';
+            burbuja.style.boxShadow = '0 5px 12px rgba(0,0,0,0.2)';
+            burbuja.style.zIndex = '10000';
+            burbuja.style.whiteSpace = 'nowrap';
+            burbuja.style.fontFamily = 'inherit';
+            burbuja.style.backdropFilter = 'blur(4px)';
+            burbuja.style.border = '1px solid #ffb6c1';
+            burbuja.style.pointerEvents = 'none';
+            document.body.appendChild(burbuja);
+            setTimeout(() => burbuja.remove(), 1000);
+        }
+        
+        // EVENTOS para que el botón NO sea SÚPER sensible y se mueva antes de que le den click
+        // 1) mouseenter (acercamiento con cursor)
+        function onMouseSeAcerca(e) {
+            if (!juegoActivo) return;
+            e.preventDefault();
+            intentosTraviesos++;
+            moverBotonNo(true);
+            mostrarMensajitoFlotante("✨ ¡Uy! casi me atrapas... pero NO ✨");
+            // vibración sutil si soporta
+            if (navigator.vibrate) navigator.vibrate(15);
+        }
+        
+        // 2) touchstart para móvil (antes de que el dedo toque realmente)
+        function onTouchSeAcerca(e) {
+            if (!juegoActivo) return;
+            e.preventDefault();
+            intentosTraviesos++;
+            moverBotonNo(true);
+            mostrarMensajitoFlotante("💢 ¡Anda, dale al SÍ mejor! 💢");
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
+        
+        // 3) click directo al NO -> imposible, huye más fuerte y muestra mensaje romántico
+        function onNoClick(e) {
+            if (!juegoActivo) return;
+            e.preventDefault();
+            e.stopPropagation();
+            intentosTraviesos += 2;
+            moverBotonNo(true);
+            mostrarMensajitoFlotante("🥺 ¡Por fi! Solo SÍ, ándale, SÍ que SÍ 🥺");
+            // Adicional: hacer que el botón SI parpadee llamativo
+            btnSi.style.transform = "scale(1.03)";
+            setTimeout(() => { if(btnSi) btnSi.style.transform = ""; }, 200);
+            if (navigator.vibrate) navigator.vibrate(30);
+            // Si lleva muchos intentos, lanzar un mensaje extra en el área
+            if (intentosTraviesos > 8 && juegoActivo) {
+                const msjExtra = document.createElement('div');
+                msjExtra.innerText = "💗 ¡ÁNDALE SÍ SÍ POR FAVOR! 💗";
+                msjExtra.style.position = 'absolute';
+                msjExtra.style.bottom = '-30px';
+                msjExtra.style.left = '0';
+                msjExtra.style.right = '0';
+                msjExtra.style.background = '#ffb7c5';
+                msjExtra.style.color = '#a12248';
+                msjExtra.style.padding = '6px';
+                msjExtra.style.borderRadius = '40px';
+                msjExtra.style.fontWeight = 'bold';
+                msjExtra.style.fontSize = '0.8rem';
+                msjExtra.style.textAlign = 'center';
+                msjExtra.style.zIndex = '999';
+                zona.style.position = 'relative';
+                zona.appendChild(msjExtra);
+                setTimeout(() => msjExtra.remove(), 1500);
+            }
+            return false;
+        }
+        
+        // también al hacer mousedown -> huir antes de soltar
+        function onNoMouseDown(e) {
+            if (!juegoActivo) return;
+            e.preventDefault();
+            intentosTraviesos++;
+            moverBotonNo(true);
+            mostrarMensajitoFlotante("🙈 ¡Que no! Elige SÍ lindo/a 🙈");
+        }
+        
+        // evento para móvil touchmove (para que no se quede quieto si arrastran)
+        function onTouchMoveEscapar(e) {
+            if (!juegoActivo) return;
+            if (e.target === btnNo || btnNo.contains(e.target)) {
+                e.preventDefault();
+                intentosTraviesos++;
+                moverBotonNo(true);
+            }
+        }
+        
+        // ========== CUANDO ACEPTAN (SÍ) ==========
+        function onSiClick(e) {
+            if (!juegoActivo) return;
+            juegoActivo = false;
+            
+            // Animación de desaparición de botones
+            btnSi.style.transition = "all 0.3s";
+            btnNo.style.transition = "all 0.3s";
+            btnSi.style.opacity = "0";
+            btnNo.style.opacity = "0";
+            btnSi.style.transform = "scale(0.8)";
+            btnNo.style.transform = "scale(0.6) translate(20px, 20px)";
+            
+            setTimeout(() => {
+                btnSi.style.display = "none";
+                btnNo.style.display = "none";
+                // Mostrar mensaje bonito con texto "ándale sí que sí por fi"
+                mensajeBox.classList.remove('hidden');
+                mensajeBox.classList.add('animacion-pop');
+                // Actualizar texto interno con más cariño
+                mensajeBox.innerHTML = `
+                    🎉💖 ¡SABÍA QUE DIRÍAS QUE SÍ! 💖🎉<br>
+                    <span style="font-size:1.3rem;">💕 ¡ÁNDALE SÍ, SÍ, POR FIII! 💕</span><br>
+                    <span style="font-size:1rem;">❤️ Eres el amor de mi vida ❤️</span><br>
+                    <span style="font-size:0.9rem;">✨ TE QUIERO MUCHÍSIMO ✨</span>
+                `;
+                // Lanzar confeti y corazones
+                lanzarConfetiYCorazones();
+                // cambiar fondo más romántico
+                document.body.style.background = "linear-gradient(145deg, #ffb0bb, #ff7a93)";
+                card.style.background = "rgba(255,250,245,0.98)";
+                const footer = document.querySelector('footer');
+                if(footer) footer.innerHTML = "💕 ¡Felicidades! Ahora eres mi persona favorita en el universo 💕";
+            }, 280);
+        }
+        
+        // Confeti + corazones + emojis
+        function lanzarConfetiYCorazones() {
+            for (let i=0; i<150; i++) {
+                const confeti = document.createElement('div');
+                confeti.style.position = 'fixed';
+                confeti.style.width = Math.random() * 10 + 4 + 'px';
+                confeti.style.height = Math.random() * 8 + 4 + 'px';
+                confeti.style.backgroundColor = `hsl(${Math.random() * 360}, 90%, 70%)`;
+                confeti.style.top = '-15px';
+                confeti.style.left = Math.random() * window.innerWidth + 'px';
+                confeti.style.borderRadius = '50%';
+                confeti.style.opacity = '0.9';
+                confeti.style.zIndex = '10000';
+                confeti.style.pointerEvents = 'none';
+                document.body.appendChild(confeti);
+                confeti.animate([
+                    { transform: 'translateY(0px) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight + 80}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                ], { duration: 1300 + Math.random() * 1000, easing: 'cubic-bezier(0.2,0.9,0.4,1)', fill: 'forwards' }).onfinish = () => confeti.remove();
+            }
+            // Corazones
+            for (let i=0; i<60; i++) {
+                let corazon = document.createElement('div');
+                corazon.innerHTML = ['❤️','💖','💗','💘','💕','💞','💓'][Math.floor(Math.random()*7)];
+                corazon.style.position = 'fixed';
+                corazon.style.left = Math.random() * window.innerWidth + 'px';
+                corazon.style.bottom = '-20px';
+                corazon.style.fontSize = Math.random() * 25 + 18 + 'px';
+                corazon.style.opacity = '0.9';
+                corazon.style.zIndex = '10001';
+                corazon.style.pointerEvents = 'none';
+                document.body.appendChild(corazon);
+                corazon.animate([
+                    { transform: 'translateY(0px) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(-${window.innerHeight+150}px) rotate(${Math.random()*40-20}deg)`, opacity: 0 }
+                ], { duration: 1500 + Math.random() * 1200, easing: 'ease-out', fill: 'forwards' }).onfinish = () => corazon.remove();
+            }
+        }
+        
+        // Adicional: cada 1.5 segundos si el juego sigue activo y el ratón no está encima, mover el NO aleatoriamente para dar sensación traviesa
+        let movimientoAutonomo = null;
+        function iniciarMovimientoAutonomo() {
+            if (movimientoAutonomo) clearInterval(movimientoAutonomo);
+            movimientoAutonomo = setInterval(() => {
+                if (juegoActivo && btnNo && window.getComputedStyle(btnNo).display !== 'none') {
+                    // solo movemos si el juego sigue activo, pero sin abusar
+                    if (Math.random() > 0.55) {
+                        intentosTraviesos++;
+                        moverBotonNo(false);
+                    }
+                } else if (!juegoActivo && movimientoAutonomo) {
+                    clearInterval(movimientoAutonomo);
+                }
+            }, 1800);
+        }
+        
+        // reiniciar eventos y asegurar posicionamiento al cargar/redimension
+        function bindearEventos() {
+            btnNo.addEventListener('mouseenter', onMouseSeAcerca);
+            btnNo.addEventListener('click', onNoClick);
+            btnNo.addEventListener('mousedown', onNoMouseDown);
+            btnNo.addEventListener('touchstart', onTouchSeAcerca, { passive: false });
+            document.body.addEventListener('touchmove', onTouchMoveEscapar, { passive: false });
+            // también para que cuando se acerque el ratón al área general, se ría
+            zona.addEventListener('mouseenter', () => {
+                if(juegoActivo && Math.random()>0.7) moverBotonNo(false);
+            });
+            btnSi.addEventListener('click', onSiClick);
+        }
+        
+        function inicializar() {
+            juegoActivo = true;
+            intentosTraviesos = 0;
+            btnNo.style.transform = '';
+            btnNo.style.padding = '';
+            btnNo.style.fontSize = '';
+            btnNo.innerHTML = '😈 NO 😈';
+            btnNo.style.opacity = '1';
+            btnNo.style.display = 'inline-flex';
+            btnSi.style.opacity = '1';
+            btnSi.style.display = 'inline-flex';
+            btnSi.style.transform = '';
+            mensajeBox.classList.add('hidden');
+            mensajeBox.classList.remove('animacion-pop');
+            document.body.style.background = "linear-gradient(145deg, #ffb7c5 0%, #ff8c9e 100%)";
+            card.style.background = "rgba(255, 248, 245, 0.96)";
+            const footer = document.querySelector('footer');
+            if(footer) footer.innerHTML = "💞 Dale al SÍ sin miedo... el NO siempre va a huir 💞";
+            // moverlo al inicio un poco para que se note juguetón
+            setTimeout(() => {
+                if(juegoActivo){
+                    intentosTraviesos = 1;
+                    moverBotonNo(true);
+                }
+            }, 100);
+            if(movimientoAutonomo) clearInterval(movimientoAutonomo);
+            iniciarMovimientoAutonomo();
+        }
+        
+        window.addEventListener('resize', () => {
+            if(juegoActivo && btnNo.style.display !== 'none') moverBotonNo(false);
+        });
+        
+        bindearEventos();
+        inicializar();
+    })();
+</script>
+</body>
+</html>
+```
