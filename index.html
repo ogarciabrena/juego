@@ -1,1 +1,553 @@
-a
+Aquí tienes el código HTML de un juego interactivo donde el botón "No" se mueve para que solo puedan elegir "Sí".
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>💖 ¿Quieres ser mi novia? 💖 - Juego interactivo</title>
+    <style>
+        * {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #ff9a9e 0%, #fad0c4 50%, #fad0c4 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Quicksand', system-ui, -apple-system, 'Poppins', cursive;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Tarjeta principal */
+        .game-container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 72px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.5) inset;
+            padding: 30px 25px 45px 25px;
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        /* Emoji y título */
+        .emoji-big {
+            font-size: 85px;
+            margin-bottom: 10px;
+            display: inline-block;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: #c94f7c;
+            text-shadow: 3px 3px 0 #ffe0e7;
+            margin: 10px 0 5px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .sub {
+            font-size: 1.1rem;
+            background: #ffecf0;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 60px;
+            color: #b13e66;
+            font-weight: 600;
+            margin-bottom: 35px;
+            box-shadow: inset 0 1px 2px #fff8, 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Área de botones */
+        .buttons-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 25px 0 20px;
+            position: relative;
+            min-height: 120px;
+        }
+
+        /* Botón SÍ - siempre visible, firme y seductor */
+        .btn-yes {
+            background: linear-gradient(135deg, #ff6a88, #ff99ac);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 18px 32px;
+            border-radius: 120px;
+            box-shadow: 0 12px 0 #9b2e4e, 0 5px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: 0.07s linear;
+            font-family: inherit;
+            letter-spacing: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-yes:active {
+            transform: translateY(4px);
+            box-shadow: 0 6px 0 #9b2e4e;
+        }
+
+        /* Botón NO - tramposo, se moverá y se encogerá */
+        .btn-no {
+            background: #3c2f2f;
+            border: none;
+            color: #e0dbd0;
+            font-size: 1.9rem;
+            font-weight: bold;
+            padding: 18px 32px;
+            border-radius: 120px;
+            box-shadow: 0 8px 0 #1f1717;
+            cursor: pointer;
+            transition: all 0.08s ease-out;
+            font-family: inherit;
+            letter-spacing: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            /* posición relativa para poder moverlo con transform */
+            will-change: transform, width, padding, font-size;
+            background: #5e4b3c;
+        }
+
+        /* estado cuando se vuelve escurridizo */
+        .btn-no:active {
+            transform: scale(0.96) translateY(2px);
+            box-shadow: 0 4px 0 #1f1717;
+        }
+
+        /* mensaje de celebración */
+        .celebration {
+            background: #ffeaa7;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 70px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #c44569;
+            transition: 0.3s;
+            border: 2px dashed #ffb8c6;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .sparkles {
+            font-size: 2rem;
+            animation: pop 0.5s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        footer {
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: #b3547c;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 520px) {
+            .game-container { padding: 20px 18px 35px; }
+            h1 { font-size: 1.8rem; }
+            .btn-yes, .btn-no { padding: 12px 22px; font-size: 1.4rem; }
+            .buttons-area { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container" id="gameApp">
+    <div class="emoji-big">💌💘</div>
+    <h1>¿Quieres ser mi novia?</h1>
+    <div class="sub">✨ El botón "NO" es muy juguetón... ✨</div>
+
+    <div class="buttons-area" id="buttonsArea">
+        <button class="btn-yes" id="yesBtn">💕 ¡SÍ! 💕</button>
+        <button class="btn-no" id="noBtn">😈 NO 😈</button>
+    </div>
+
+    <div id="messageBox" class="celebration hidden">
+        🎉💖 ¡Sabía que dirías que SÍ! 💖🎉<br>
+        <span style="font-size:1.2rem;">❤️ Eres la persona más especial ❤️</span>
+    </div>
+    <footer>💞 Pista: el botón "No" es travieso... solo "Sí" es estable 💞</footer>
+</div>
+
+<script>
+    (function() {
+        // --------------------- ELEMENTOS -------------------------
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const messageBox = document.getElementById('messageBox');
+        const buttonsArea = document.getElementById('buttonsArea');
+
+        // Variables de control
+        let gameActive = true;          // mientras no se haya dicho que sí
+        let evasionCount = 0;            // cuántas veces intentó clickear NO (efecto acumulado)
+        
+        // Guardar posición original relativa? No necesaria porque empezamos desde pos normal
+        // El botón se moverá con transform translate, además encogerá y cambiará texto
+
+        // Frases graciosas para el botón No
+        const funnyTexts = [
+            "😈 NO", "🚫 NI LO PIENSES", "🤭 ESCONDIDO", "🏃 HUYE", 
+            "🙈 NO PUEDES", "✨ CASI ✨", "😜 INTENTA OTRA VEZ", 
+            "💨 OTRO LUGAR", "🍃 NOP", "🌀 TAMPOCO", "🎈 TE DIJE QUE NO",
+            "❌ SÓLO SÍ", "🤡 NOPE"
+        ];
+
+        // Dimensiones del área para movimiento aleatorio
+        let areaRect = null;
+        let noRect = null;
+
+        // Función para actualizar rectángulos
+        function updateRects() {
+            if (!buttonsArea || !noBtn) return;
+            areaRect = buttonsArea.getBoundingClientRect();
+            noRect = noBtn.getBoundingClientRect();
+        }
+
+        // Función para mover el botón NO de forma aleatoria dentro del área del contenedor
+        // además, cambiar tamaño y texto según cuántas veces lo ha intentado.
+        function moveNoButton() {
+            if (!gameActive) return; // si ya aceptó, no se mueve más (incluso si reaparece, pero no debería)
+            if (!buttonsArea || !noBtn) return;
+            
+            // actualizar medidas actuales en tiempo real
+            updateRects();
+            if (!areaRect || !noRect) return;
+            
+            // Calcular márgenes máximos para que el botón no se salga del área visible
+            const areaWidth = areaRect.width;
+            const areaHeight = areaRect.height;
+            const btnWidth = noRect.width;
+            const btnHeight = noRect.height;
+            
+            // límites para que quede completamente dentro del área (márgenes suaves)
+            let maxLeft = Math.max(0, areaWidth - btnWidth);
+            let maxTop = Math.max(0, areaHeight - btnHeight);
+            
+            // Si por alguna razón max es 0 o negativo, poner un mínimo
+            if (maxLeft <= 0) maxLeft = 10;
+            if (maxTop <= 0) maxTop = 10;
+            
+            // Posiciones aleatorias en píxeles relativas al área
+            const randomX = Math.random() * maxLeft;
+            const randomY = Math.random() * maxTop;
+            
+            // Aplicar transformación: mover relativo a su posición original (basada en flex/flow)
+            // Nota: el botón tiene position relative por defecto, pero para que se desplace dentro del flex container
+            // usamos transform: translate(x, y) manteniendo su flujo original, pero puede solaparse?
+            // Como el área tiene flex wrap, el botón se moverá pero seguirá ocupando su espacio virtualmente? 
+            // Para un desplazamiento sin romper diseño, usamos translate absoluto dentro del contenedor,
+            // pero como los elementos están en flex, conviene agregar position relative al botón y luego translate.
+            // Pero ya el botón tiene position relative por defecto, excelente.
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            
+            // también reducimos tamaño progresivamente y cambiamos estilo para que sea más escurridizo.
+            // Hasta un 60% de tamaño original, sin que sea imposible de clickear pero difícil.
+            let shrinkFactor = Math.max(0.5, 1 - (evasionCount * 0.08));  // máximo reducción a 0.5
+            if (shrinkFactor < 0.45) shrinkFactor = 0.45;
+            // Ajustar padding y fuente según factor
+            const basePaddingV = 18;
+            const newPadding = Math.max(8, basePaddingV * shrinkFactor);
+            const fontSize = Math.max(1.1, 1.9 * shrinkFactor);
+            noBtn.style.padding = `${newPadding}px ${newPadding * 1.4}px`;
+            noBtn.style.fontSize = `${fontSize}rem`;
+            
+            // Cambiar texto aleatorio de la lista para hacerlo más gracioso
+            if (funnyTexts.length) {
+                let randomIndex = Math.floor(Math.random() * funnyTexts.length);
+                let newText = funnyTexts[randomIndex];
+                // Mantener el emoji inicial? opcional, le da chispa
+                if (!newText.includes("😈") && !newText.includes("🚫") && !newText.includes("🙈")) {
+                    if (evasionCount % 3 === 0) newText = "😜 " + newText;
+                    else if (evasionCount % 2 === 0) newText = newText + " 😏";
+                }
+                noBtn.innerHTML = newText;
+            } else {
+                noBtn.innerHTML = "😈 NO";
+            }
+            
+            // Efecto de vibración sutil
+            noBtn.style.transition = "transform 0.12s cubic-bezier(0.2, 1.6, 0.4, 1), padding 0.1s, font-size 0.1s";
+            // Añadimos una pequeña sacudida en el área para divertir
+            buttonsArea.style.transform = "translateX(2px)";
+            setTimeout(() => { if(buttonsArea) buttonsArea.style.transform = ""; }, 80);
+        }
+        
+        // Función para hacer que el botón No se aleje incluso antes de que el mouse entre (hover)
+        // También para móviles: cuando el dedo se acerca (touchstart) huimos!
+        function handleNoApproach(e) {
+            if (!gameActive) return;
+            e.preventDefault();  // Evita el click si quieres? pero cuidado, solo queremos mover antes de que clickee
+            // Incrementamos contador de evasión para hacerlo más dramático
+            evasionCount++;
+            // Cambiamos posición y estilo agresivamente
+            moveNoButton();
+            // Además, cambiar sombra para efecto de "te pillé"
+            noBtn.style.boxShadow = "0 2px 0 #1f1717";
+            setTimeout(() => { if(noBtn && gameActive) noBtn.style.boxShadow = "0 8px 0 #1f1717"; }, 100);
+            
+            // Si evasionCount es muy alto, incluso esconder texto por un momento? no, mejor más pequeño
+            if (evasionCount > 5) {
+                noBtn.style.opacity = "0.9";
+                // también puede parpadear
+                noBtn.style.filter = "brightness(0.8)";
+                setTimeout(() => { if(noBtn) noBtn.style.filter = ""; }, 150);
+            }
+        }
+        
+        // Para touchstart en móvil: huir antes de que toque
+        function handleNoTouchStart(e) {
+            if (!gameActive) return;
+            e.preventDefault();  // importante: evita que se registre el click después
+            evasionCount++;
+            moveNoButton();
+            // simular un efecto háptico si se pudiera
+            if (navigator.vibrate) navigator.vibrate(20);
+            noBtn.style.transform += " scale(0.95)";
+            setTimeout(() => { if(noBtn && gameActive) noBtn.style.transform = noBtn.style.transform.replace(" scale(0.95)", ""); }, 80);
+        }
+        
+        // también en mouseenter (cuando el mouse se acerca sin click)
+        function onMouseEnterNo(e) {
+            if (!gameActive) return;
+            evasionCount++;
+            moveNoButton();
+            // extra: cambiar cursor
+            noBtn.style.cursor = "grab";
+        }
+        
+        // Manejar el click real sobre NO: pero como se moverá antes o después, en realidad intentaremos que 
+        // el evento click del NO también cause un movimiento extra y no pueda ser clickeado porque se alejó.
+        // Sin embargo, podría darse el caso que el usuario haga click rapidísimo sin que los eventos anteriores lo muevan.
+        // Por eso también en el event listener del click, haremos que sea imposible: mostrar alerta divertida y mover más fuerte.
+        function onNoClick(e) {
+            if (!gameActive) return;
+            e.preventDefault();
+            e.stopPropagation();
+            evasionCount++;
+            // Movimiento drástico: lo enviamos a otra coordenada extrema
+            moveNoButton();
+            // además por si acaso, damos feedback auditivo imaginario? agregamos texto temporal flotante
+            showFloatingTip("¡No puedes! Elige SÍ 💕");
+            // reducimos aún más tamaño si es persistente
+            if (evasionCount > 8) {
+                noBtn.style.opacity = "0.7";
+                setTimeout(() => { if(noBtn && gameActive) noBtn.style.opacity = "1"; }, 300);
+            }
+            return false;
+        }
+        
+        // mensajito flotante cerca del cursor o del botón
+        function showFloatingTip(msg) {
+            let tip = document.createElement('div');
+            tip.innerText = msg;
+            tip.style.position = 'fixed';
+            tip.style.left = (event && event.clientX ? event.clientX - 50 : '50%') + 'px';
+            tip.style.top = (event && event.clientY ? event.clientY - 40 : '40%') + 'px';
+            tip.style.background = '#ffd966';
+            tip.style.color = '#b3413e';
+            tip.style.padding = '8px 16px';
+            tip.style.borderRadius = '60px';
+            tip.style.fontWeight = 'bold';
+            tip.style.fontSize = '0.9rem';
+            tip.style.boxShadow = '0 4px 12px black';
+            tip.style.zIndex = '9999';
+            tip.style.pointerEvents = 'none';
+            tip.style.whiteSpace = 'nowrap';
+            tip.style.fontFamily = 'inherit';
+            document.body.appendChild(tip);
+            setTimeout(() => { tip.remove(); }, 1000);
+        }
+        
+        // Función de aceptación: todo el romance
+        function onYesClick(e) {
+            if (!gameActive) return;
+            gameActive = false;
+            
+            // Ocultar botones con animación suave
+            yesBtn.style.transition = "all 0.3s";
+            noBtn.style.transition = "all 0.3s";
+            yesBtn.style.opacity = "0";
+            noBtn.style.opacity = "0";
+            yesBtn.style.transform = "scale(0.8)";
+            noBtn.style.transform = "scale(0.8) translate(0, 20px)";
+            setTimeout(() => {
+                yesBtn.style.display = "none";
+                noBtn.style.display = "none";
+                // mostrar mensaje de celebración
+                messageBox.classList.remove('hidden');
+                messageBox.classList.add('sparkles');
+                // lanzar confeti casero
+                launchConfetti();
+                // Cambiar fondo también
+                document.body.style.background = "linear-gradient(145deg, #ffb7c5, #ff9eb5)";
+                const container = document.querySelector('.game-container');
+                if(container) container.style.background = "rgba(255,245,240,0.95)";
+                // Ajustar footer
+                const footer = document.querySelector('footer');
+                if(footer) footer.innerHTML = "💕 ¡Felicidades! Ahora eres el amor de mi vida 💕";
+            }, 200);
+        }
+        
+        // Confeti básico y bonito
+        function launchConfetti() {
+            const confettiCount = 180;
+            for (let i = 0; i < confettiCount; i++) {
+                const conf = document.createElement('div');
+                conf.style.position = 'fixed';
+                conf.style.width = Math.random() * 10 + 4 + 'px';
+                conf.style.height = Math.random() * 8 + 4 + 'px';
+                conf.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 65%)`;
+                conf.style.top = '-20px';
+                conf.style.left = Math.random() * window.innerWidth + 'px';
+                conf.style.borderRadius = '50%';
+                conf.style.opacity = '0.8';
+                conf.style.pointerEvents = 'none';
+                conf.style.zIndex = '9999';
+                conf.style.transform = `rotate(${Math.random() * 360}deg)`;
+                document.body.appendChild(conf);
+                const animation = conf.animate([
+                    { transform: `translateY(0px) rotate(0deg)`, opacity: 1 },
+                    { transform: `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 1500 + 1000,
+                    easing: 'cubic-bezier(0.2, 0.9, 0.4, 1)',
+                    fill: 'forwards'
+                });
+                animation.onfinish = () => conf.remove();
+            }
+            // también corazones
+            for (let i=0;i<40;i++) {
+                let heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.style.position = 'fixed';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.bottom = '-30px';
+                heart.style.fontSize = Math.random() * 24 + 16 + 'px';
+                heart.style.opacity = '0.9';
+                heart.style.pointerEvents = 'none';
+                heart.style.zIndex = '10000';
+                document.body.appendChild(heart);
+                heart.animate([
+                    { transform: 'translateY(0px) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(-${window.innerHeight + 100}px) rotate(${Math.random() * 60 - 30}deg)`, opacity: 0 }
+                ], { duration: 1500 + Math.random() * 1000, easing: 'ease-out', fill: 'forwards' }).onfinish = () => heart.remove();
+            }
+        }
+        
+        // Función de reset por si la persona no logra escapar? No lo necesita, pero añadimos un efecto de que el botón NO nunca será presionable realmente.
+        // Adicionalmente, en móviles, cuando se mueve el botón la zona táctil cambia con transform, pero el área clickeable se mueve con el botón.
+        // Para asegurar que incluso si se mueve antes del click, el listener huye, pondremos también 'touchstart' + 'mousedown'.
+        // Además asignamos que el botón No se reposicione cada 0.3 segundos si el juego sigue activo? no, sería demasiado molesto; solo cuando se acerca.
+        // Pero para que sea imposible de elegir, también cada vez que se cargue la página o redimensione ventana re-posicionamos?
+        window.addEventListener('resize', () => {
+            if (gameActive && noBtn && noBtn.style.display !== 'none') {
+                // reajustar su posición para que no quede fuera del área visible tras cambio de tamaño
+                moveNoButton();
+            }
+        });
+        
+        // También cuando el mouse se mueve sobre el área de juego? no es necesario.
+        // Un refuerzo: Cada vez que se intente hacer hover sobre el botón, huimos, lo mismo para click.
+        // Se añaden múltiples eventos para robustez.
+        function bindEscapeEvents() {
+            if (!noBtn) return;
+            // eventos de ratón
+            noBtn.addEventListener('mouseenter', onMouseEnterNo);
+            noBtn.addEventListener('click', onNoClick);
+            noBtn.addEventListener('mousedown', (e) => {
+                if(gameActive) e.preventDefault();
+                evasionCount++;
+                moveNoButton();
+            });
+            // eventos táctiles para móvil prioridad
+            noBtn.addEventListener('touchstart', handleNoTouchStart, {passive: false});
+            noBtn.addEventListener('touchmove', (e) => {
+                if(gameActive) e.preventDefault();
+            });
+            // también el botón sí (normal)
+            yesBtn.addEventListener('click', onYesClick);
+        }
+        
+        // Inicializar el juego, posición inicial normal del botón No, pero con estilo base.
+        function initGame() {
+            gameActive = true;
+            evasionCount = 0;
+            noBtn.style.transform = '';
+            noBtn.style.padding = '';
+            noBtn.style.fontSize = '';
+            noBtn.style.opacity = '';
+            noBtn.style.filter = '';
+            noBtn.innerHTML = '😈 NO 😈';
+            noBtn.style.display = 'inline-flex';
+            yesBtn.style.display = 'inline-flex';
+            yesBtn.style.opacity = '1';
+            noBtn.style.opacity = '1';
+            yesBtn.style.transform = '';
+            noBtn.style.transform = '';
+            messageBox.classList.add('hidden');
+            messageBox.classList.remove('sparkles');
+            document.body.style.background = "linear-gradient(145deg, #ff9a9e 0%, #fad0c4 50%, #fad0c4 100%)";
+            const container = document.querySelector('.game-container');
+            if(container) container.style.background = "rgba(255, 255, 255, 0.85)";
+            const footer = document.querySelector('footer');
+            if(footer) footer.innerHTML = "💞 Pista: el botón 'No' es travieso... solo 'Sí' es estable 💞";
+            // forzar un movimiento inicial para que el botón se mueva un poco y parezca juguetón desde el principio
+            setTimeout(() => {
+                if(gameActive) {
+                    evasionCount = 1;
+                    moveNoButton();
+                }
+            }, 100);
+        }
+        
+        bindEscapeEvents();
+        initGame();
+        
+        // Reposición extra cada vez que se redimensiona o cualquier cambio en orientación
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => { if(gameActive) moveNoButton(); }, 100);
+        });
+        
+        // También cada vez que el mouse se mueve sobre el área general, no es necesario, 
+        // pero un mini efecto de que el botón NO se aleja un poco más cuando se acerca el ratón al contenedor
+        buttonsArea.addEventListener('mouseenter', (e) => {
+            if(gameActive && noBtn && noBtn.style.display !== 'none') {
+                // alejamiento sutil
+                if(Math.random() > 0.5) moveNoButton();
+            }
+        });
+    })();
+</script>
+</body>
+</html>
+```
